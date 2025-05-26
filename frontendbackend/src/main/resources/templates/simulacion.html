@@ -1,53 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> <!-- Se incluye el namespace de Thymeleaf por si se usa con Spring Boot -->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <title>Simulación de errores</title> <!-- Título de la página -->
-    <meta charset="UTF-8"> <!-- Codificación de caracteres en UTF-8 -->
+    <meta charset="UTF-8">
+    <title>Simulación</title>
+    <link rel="stylesheet" th:href="@{/imagenes/style.css}">
 </head>
 <body>
-<h1>Simular excepciones</h1> <!-- Título principal visible en la página -->
-
-<!-- Formulario para consultar usuarios desde la base de datos -->
-<form onsubmit="consultarUsuarios(); return false;"> <!-- Al enviar el formulario se llama a la función JS, y se evita el recargo de la página -->
-    <button>Consultar usuarios en base de datos (Flask)</button> <!-- Botón que activa la consulta -->
-</form>
-
-<!-- Formulario para simular error al leer un archivo -->
-<form onsubmit="leerArchivo(); return false;" style="margin-top: 20px;"> <!-- Segunda acción con separación visual -->
-    Nombre del archivo:
-    <input type="text" id="nombreArchivo" value="archivo_inexistente.txt"> <!-- Entrada para escribir el nombre del archivo -->
-    <button>Leer archivo desde Flask</button> <!-- Botón que activa la lectura del archivo -->
-</form>
-
-<!-- Aquí se mostrarán los resultados de las peticiones -->
-<div id="resultado" style="margin-top: 20px;"></div>
-
-<script>
-    // Función para consultar los usuarios desde el backend Flask
-    function consultarUsuarios() {
-        fetch("http://localhost:5000/usuarios") // Llama al endpoint /usuarios
-            .then(r => r.json()) // Convierte la respuesta a JSON
-            .then(data => {
-                // Muestra la respuesta formateada en el div resultado
-                document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
-            })
-            .catch(err => alert("Error en la petición: " + err)); // Muestra un error si falla la petición
-    }
-
-    // Función para leer un archivo con nombre proporcionado
-    function leerArchivo() {
-        const nombre = document.getElementById("nombreArchivo").value; // Obtiene el valor ingresado
-        fetch(`http://localhost:5000/leer-archivo?nombre=${nombre}`) // Llama al endpoint con query string
-            .then(r => r.json()) // Convierte la respuesta a JSON
-            .then(data => {
-                // Muestra la respuesta formateada en el div resultado
-                document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
-            })
-            .catch(err => alert("Error en la petición: " + err)); // Muestra un error si falla la petición
-    }
-</script>
-
-<!-- Enlace para volver a la página principal -->
-<a href="/">Volver a principal</a>
+<div class="login-container">
+    <h2>Resultado de la simulación</h2>
+    <p th:text="${resultado}">Aquí aparecerá el resultado de la simulación.</p>
+    <a href="/index">Volver al inicio</a>
+</div>
 </body>
 </html>

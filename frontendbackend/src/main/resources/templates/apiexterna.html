@@ -1,57 +1,32 @@
-<!-- Declaración del tipo de documento HTML5 -->
 <!DOCTYPE html>
-
-<!-- Declaración del espacio de nombres para Thymeleaf -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Simulación API Externa</title> <!-- Título de la pestaña del navegador -->
+  <title>Consulta PokeAPI</title>
+  <link rel="stylesheet" th:href="@{/imagenes/style.css}">
 </head>
 <body>
+<div class="login-container">
+  <h1>Consultar un Pokémon</h1>
 
-<!-- Título visible en la página -->
-<h1>Llamada a API externa (Pokémon)</h1>
+  <form method="post" th:action="@{/apiexterna}">
+    <label>Nombre del Pokémon:</label>
+    <input type="text" name="nombre" required>
+    <button type="submit">Consultar</button>
+  </form>
 
-<!-- Formulario sin acción ni método tradicional; será manejado por JavaScript -->
-<form id="pokeForm">
-  <!-- Campo de entrada para que el usuario escriba el nombre del Pokémon -->
-  <label for="pokemon">Nombre del Pokémon:</label>
-  <input type="text" id="pokemon" name="pokemon">
+  <div th:if="${pokemon != null}">
+    <h2 th:text="${pokemon.nombre}"></h2>
+    <p>Altura: <span th:text="${pokemon.altura}"></span></p>
+    <p>Peso: <span th:text="${pokemon.peso}"></span></p>
+    <p>Tipo principal: <span th:text="${pokemon.tipo_principal}"></span></p>
+  </div>
 
-  <!-- Botón para enviar el formulario -->
-  <button type="submit">Buscar</button>
-</form>
+  <div th:if="${error != null}">
+    <p th:text="${error}" style="color: red;"></p>
+  </div>
 
-<!-- Div donde se mostrará el resultado de la llamada a la API -->
-<div id="resultado"></div>
-
-<!-- Enlace de navegación hacia la página de inicio, usando Thymeleaf -->
-<br>
-<a th:href="@{/}">Volver a la página principal</a>
-
-<!-- Script en JavaScript para manejar la llamada a la API externa (Flask en este caso) -->
-<script>
-  // Añade un listener al formulario para manejar el envío de forma asíncrona
-  document.getElementById("pokeForm").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Evita que el formulario recargue la página
-
-    const nombre = document.getElementById("pokemon").value; // Obtiene el nombre introducido
-
-    try {
-      // Llama a la API Flask en el puerto 5000, pasando el nombre del Pokémon
-      const response = await fetch("http://localhost:5000/pokeapi?nombre=" + nombre);
-
-      // Convierte la respuesta JSON en un objeto JS
-      const data = await response.json();
-
-      // Muestra el objeto JSON de forma legible dentro del div resultado
-      document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
-    } catch (error) {
-      // Si algo falla (conexión, error en la API, etc.), muestra un mensaje de error
-      document.getElementById("resultado").innerText = "Error al llamar a la API externa.";
-    }
-  });
-</script>
-
+  <a href="/">Volver</a>
+</div>
 </body>
 </html>

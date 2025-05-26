@@ -1,25 +1,28 @@
 package com.elisa.frontendbackend.controller;
 
-// Anotación @Controller para definir un controlador de tipo MVC (que devuelve vistas HTML)
 import org.springframework.stereotype.Controller;
-
-// Importa la clase Model, que permite pasar datos desde el controlador a la vista
 import org.springframework.ui.Model;
-
-// Importa la anotación @GetMapping para mapear una ruta HTTP GET
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestTemplate;
 
-// Declara la clase SimulacionController como un controlador web
+import java.util.Map;
+
 @Controller
 public class SimulacionController {
 
-    /**
-     * Mapea la URL "/simulacion" a este método.
-     * Este método puede pasar datos a la vista mediante el parámetro Model.
-     */
     @GetMapping("/simulacion")
-    public String simulacion(Model model) {
+    public String mostrarSimulacion(Model model) {
+        String url = "http://localhost:5000/simulacion";  // Asegúrate de tener este endpoint en Flask
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            Map<String, Object> respuesta = restTemplate.getForObject(url, Map.class);
+            model.addAttribute("resultado", respuesta.get("resultado"));
+        } catch (Exception e) {
+            model.addAttribute("resultado", "Error al contactar con la API Flask");
+        }
 
         return "simulacion";
     }
 }
+

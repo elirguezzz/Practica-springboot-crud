@@ -1,90 +1,21 @@
-<!-- Indica que es un documento HTML5 -->
 <!DOCTYPE html>
-
-<!-- Declaración del namespace de Thymeleaf -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <!-- Codificación de caracteres -->
     <meta charset="UTF-8">
-
-    <!-- Título que se muestra en la pestaña del navegador -->
-    <title>Página principal</title>
-
-    <!-- Carga del archivo de estilos CSS usando Thymeleaf -->
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <title>Bienvenido</title>
+    <link rel="stylesheet" th:href="@{/imagenes/style.css}">
 </head>
 <body>
+<div class="login-container">
+    <h1>¡Bienvenido a la plataforma, <span th:text="${usuario}">Usuario</span>!</h1>
 
-<!-- Título principal visible en la página -->
-<h1>Página principal</h1>
-
-<!-- ===== Sección para probar el endpoint /api/test ===== -->
-<div>
-    <!-- Campo de texto donde el usuario puede escribir el tipo de prueba -->
-    <label>Tipo de prueba (saludo, notfound, servererror):</label>
-    <input type="text" id="tipoPrueba">
-
-    <!-- Botón que llama a la función probarApi() en JavaScript -->
-    <button onclick="probarApi()">Probar API Flask</button>
+    <p>Selecciona una opción:</p>
+    <ul>
+        <li><a href="/apiexterna">API Externa</a></li>
+        <li><a href="/simulacion">Simulación</a></li>
+        <li><a href="/api">Acceso a BD</a></li>
+        <li><a href="/logout">Cerrar sesión</a></li>
+    </ul>
 </div>
-
-<br>
-
-<!-- ===== Sección para consultar la API de Pokémon ===== -->
-<div>
-    <!-- Campo donde se introduce el nombre del Pokémon -->
-    <label>Nombre del Pokémon:</label>
-    <input type="text" id="nombrePokemon">
-
-    <!-- Botón que ejecuta la función consultarPokemon() -->
-    <button onclick="consultarPokemon()">Consultar Pokémon</button>
-</div>
-
-<br>
-
-<!-- ===== Enlace de navegación al login ===== -->
-<div>
-    <!-- Usa Thymeleaf para generar el enlace a /login -->
-    <a th:href="@{/login}">Ir al login</a>
-</div>
-
-<br>
-
-<!-- ===== Zona donde se muestran los resultados de las llamadas a API ===== -->
-<div id="resultado"></div>
-
-<!-- ===== JavaScript para manejar las llamadas asincrónicas (fetch) ===== -->
-<script>
-    // Función para probar el endpoint /api/test con un parámetro 'tipo'
-    function probarApi() {
-        const tipo = document.getElementById("tipoPrueba").value;
-
-        fetch("/api/test?tipo=" + tipo)
-            .then(response => response.json()) // Convierte la respuesta a JSON
-            .then(data => {
-                // Muestra la respuesta formateada en el div 'resultado'
-                document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
-            })
-            .catch(error => {
-                // En caso de error, muestra el mensaje de error
-                document.getElementById("resultado").innerText = "Error: " + error;
-            });
-    }
-
-    // Función para consultar la información de un Pokémon llamando a /pokeapi
-    function consultarPokemon() {
-        const nombre = document.getElementById("nombrePokemon").value;
-
-        fetch("/pokeapi?nombre=" + nombre)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("resultado").innerText = JSON.stringify(data, null, 2);
-            })
-            .catch(error => {
-                document.getElementById("resultado").innerText = "Error: " + error;
-            });
-    }
-</script>
-
 </body>
 </html>

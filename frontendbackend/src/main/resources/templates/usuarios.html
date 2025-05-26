@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Usuarios en la base de datos</title>
+  <link rel="stylesheet" th:href="@{/imagenes/style.css}">
+</head>
+<body>
+<div class="login-container">
+  <h1>Usuarios registrados</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Usuario</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usuario : ${usuarios}">
+      <td th:text="${usuario.id}">1</td>
+      <td th:text="${usuario.usuario}">nombre</td>
+    </tr>
+    </tbody>
+  </table>
+  <a href="/menu">← Volver al menú</a>
+</div>
+</body>
+</html>
