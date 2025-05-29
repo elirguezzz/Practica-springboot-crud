@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Categorías</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Categorías</h2>
+    <a class="btn btn-primary mb-3" th:href="@{/categorias/nueva}">Nueva Categoría</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="categoria : ${categorias}">
+            <td th:text="${categoria.id}"></td>
+            <td th:text="${categoria.nombre}"></td>
+            <td>
+                <a th:href="@{/categorias/editar/{id}(id=${categoria.id})}" class="btn btn-warning btn-sm">Editar</a>
+                <a th:href="@{/categorias/eliminar/{id}(id=${categoria.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('¿Estás seguro de eliminar esta categoría?')">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

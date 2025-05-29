@@ -1,15 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Simulación</title>
-    <link rel="stylesheet" th:href="@{/imagenes/style.css}">
+    <title>Simulación de Errores</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <style>
+        .boton {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #resultado {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-<div class="login-container">
-    <h2>Resultado de la simulación</h2>
-    <p th:text="${resultado}">Aquí aparecerá el resultado de la simulación.</p>
-    <a href="/index">Volver al inicio</a>
-</div>
+<h1>Simulación de Errores con Flask</h1>
+
+<button class="boton" onclick="simular('saludo')">Simular Saludo</button>
+<button class="boton" onclick="simular('notfound')">Simular 404</button>
+<button class="boton" onclick="simular('servererror')">Simular 500</button>
+<button class="boton" onclick="simular('invalid')">Simular Parámetro Inválido</button>
+
+<div id="resultado">Aquí se mostrará la respuesta...</div>
+
+<script>
+    function simular(tipo) {
+        fetch("http://localhost:5000/api/test?tipo=" + tipo)
+            .then(async response => {
+                const content = await response.json();
+                document.getElementById("resultado").textContent =
+                    "Código: " + response.status + "\n" +
+                    JSON.stringify(content, null, 2);
+            })
+            .catch(error => {
+                document.getElementById("resultado").textContent =
+                    "Error al conectar con Flask: " + error;
+            });
+    }
+</script>
 </body>
 </html>

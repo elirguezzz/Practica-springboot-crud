@@ -1,20 +1,19 @@
 package com.elisa.frontendbackend.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
-public class Producto {
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
-    private double precio;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    private List<Producto> productos;
 
     // Getters y setters
     public Long getId() { return id; }
@@ -23,9 +22,6 @@ public class Producto {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public double getPrecio() { return precio; }
-    public void setPrecio(double precio) { this.precio = precio; }
-
-    public Categoria getCategoria() { return categoria; }
-    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
+    public List<Producto> getProductos() { return productos; }
+    public void setProductos(List<Producto> productos) { this.productos = productos; }
 }
